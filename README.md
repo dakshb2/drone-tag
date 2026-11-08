@@ -20,6 +20,6 @@ Check: `python -c "import jax, crazyflow; print(jax.__version__, jax.default_bac
 
 ## Adding or bumping a dependency
 1. Add it to `pyproject.toml` with an exact `==` pin.
-2. `pip install -e ".[dev]"` then `pip freeze --exclude-editable > constraints.txt`.
+2. `pip install -e ".[dev]"` then `pip list --format=freeze --exclude-editable | grep -vE "^(pip|setuptools|wheel)==" > constraints.txt`.
 3. Commit both files and add a line to `docs/decisions.md`.
 4. Everyone else: `git pull && pip install -e ".[dev]" -c constraints.txt`.

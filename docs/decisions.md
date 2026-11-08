@@ -18,3 +18,4 @@ Format: YYYY-MM-DD | WS<n> | decision | reason | alternatives considered
 2026-11-08 | WS0 | run name <variant>-<exp>-s<seed>-<YYYYMMDD-HHMM>; W&B entity drone-tag-uiuc, project drone-tag | one searchable convention for runs and checkpoints | free-form names
 2026-11-08 | WS0 | CI on GitHub Actions, ubuntu-latest only, setup-python 3.12 + constraints.txt | Mac covered by local runs; macOS minutes cost ~10x; conda only supplies Python | macOS runners, conda in CI
 2026-11-08 | WS0 | ruff isort pins wandb as third-party | local wandb/ run folder made ruff misclassify it | rename W&B dir via WANDB_DIR
+2026-11-08 | WS0 | generate constraints.txt with pip list --format=freeze, excluding pip/setuptools/wheel | pip freeze writes conda-installed packages as build-server file paths, which broke CI | pip freeze
