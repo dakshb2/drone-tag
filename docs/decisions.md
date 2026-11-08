@@ -7,3 +7,4 @@ Format: YYYY-MM-DD | WS<n> | decision | reason | alternatives considered
 2026-11-08 | WS0 | GPU via jax[cuda12] pip extra | bundles CUDA; GPU machine needs only an NVIDIA driver | conda cudatoolkit, cuda13
 2026-11-08 | WS0 | Weights & Biases for experiment tracking | shared remote dashboards for the team | TensorBoard
 2026-11-08 | WS0 | checkpoints (*.npz) not committed to git | large binaries; store on W&B or shared storage | git LFS
+2026-11-08 | WS0 | constraints.txt from pip freeze locks transitive deps | pyproject pins only direct deps; transitive drift breaks reproducibility | conda-lock, uv lock
