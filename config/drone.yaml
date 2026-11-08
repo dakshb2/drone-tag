@@ -1,0 +1,8 @@
+# Owner: WS5. Schema: docs/contracts.md section 10. PLACEHOLDER until system ID.
+contract_version: "0.1"
+crazyflow_drone_model: cf2x_L250
+limits:
+  v_xy: 1.0       # m/s
+  v_z: 0.5        # m/s
+  yaw_rate: 1.57  # rad/s
+mass: null        # kg, set after WS4 payload freeze

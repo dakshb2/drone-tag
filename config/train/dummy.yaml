@@ -1,0 +1,6 @@
+# WS0 smoke job. Not a real experiment.
+seed: 0
+steps: 500
+lr: 0.05
+batch: 256
+log_every: 25

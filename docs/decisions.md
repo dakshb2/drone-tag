@@ -14,3 +14,7 @@ Format: YYYY-MM-DD | WS<n> | decision | reason | alternatives considered
 2026-11-08 | WS0 | contracts v0.1: p_detect(distance, off_axis, incidence); emitter axis uses full attitude | WS4 measures all three; forward flight pitches the beam | 2-argument p_detect, yaw-only cone
 2026-11-08 | WS0 | contracts v0.1: action is a firmware velocity setpoint; sim reproduces identified response | Crazyflow 0.4.0 has no velocity mode; sim must match real controller | ideal velocity tracking in sim
 2026-11-08 | WS0 | contracts v0.1: prediction target in body-yaw frame frozen at t; added game.yaml | targets must not depend on future own yaw; game rules need a config | world-frame targets, rules in hit_model.yaml
+2026-11-08 | WS0 | placeholder configs carry exactly the contract v0.1 keys; tests enforce keys and version | catches schema drift between workstreams early | no configs until owners fill them
+2026-11-08 | WS0 | run name <variant>-<exp>-s<seed>-<YYYYMMDD-HHMM>; W&B entity drone-tag-uiuc, project drone-tag | one searchable convention for runs and checkpoints | free-form names
+2026-11-08 | WS0 | CI on GitHub Actions, ubuntu-latest only, setup-python 3.12 + constraints.txt | Mac covered by local runs; macOS minutes cost ~10x; conda only supplies Python | macOS runners, conda in CI
+2026-11-08 | WS0 | ruff isort pins wandb as third-party | local wandb/ run folder made ruff misclassify it | rename W&B dir via WANDB_DIR

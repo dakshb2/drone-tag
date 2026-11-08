@@ -1,0 +1,9 @@
+# Owner: WS1. Schema: docs/contracts.md section 10. PLACEHOLDER values until the arena is measured.
+contract_version: "0.1"
+bounds:                    # m, world frame
+  x: [-2.0, 2.0]
+  y: [-2.0, 2.0]
+  z: [0.0, 2.0]
+geofence_margin: 0.3       # m
+min_separation: 0.5        # m, horizontal
+min_vertical_offset: 0.4   # m, no stacking inside min_separation

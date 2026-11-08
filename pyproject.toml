@@ -25,3 +25,29 @@ gpu = ["jax[cuda12]==0.12.0.1"]
 
 [tool.setuptools.packages.find]
 include = ["sim*", "train*", "eval*", "sysid*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ANN"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+disallow_untyped_defs = true
+files = ["sim", "train", "eval", "sysid"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: builds a Crazyflow sim (several seconds)"]
+filterwarnings = ["ignore::UserWarning"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sim", "train", "eval", "sysid"]
+known-third-party = ["wandb"]

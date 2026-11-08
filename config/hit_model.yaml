@@ -1,0 +1,16 @@
+# Owner: WS4 (values), WS1 (code). Schema: docs/contracts.md section 10. PLACEHOLDER until bench data.
+contract_version: "0.1"
+cone_half_angle: 0.17   # rad
+max_range: 3.0          # m
+dwell_time: 0.2         # s
+hit_cooldown: 1.0       # s
+receivers:              # unit axis vectors, body frame
+  - [1.0, 0.0, 0.0]
+  - [-1.0, 0.0, 0.0]
+  - [0.0, 1.0, 0.0]
+  - [0.0, -1.0, 0.0]
+p_detect:               # placeholder: always detect inside range and cone
+  distance: [0.0, 3.0]
+  off_axis: [0.0, 0.17]
+  incidence: [0.0, 1.57]
+  table: [[[1.0, 1.0], [1.0, 1.0]], [[1.0, 1.0], [1.0, 1.0]]]
