@@ -11,3 +11,4 @@ runs/
 *.npz
 experiments/**/*.bag
 experiments/**/*.mcap
+MUJOCO_LOG.TXT
