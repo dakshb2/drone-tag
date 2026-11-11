@@ -1,5 +1,6 @@
 """WS0 tests: environment, configs vs contracts, naming, dummy job, Crazyflow smoke."""
 
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -16,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 # Required top-level keys per docs/contracts.md section 10.
 REQUIRED_KEYS = {
     "arena.yaml": {"bounds", "geofence_margin", "min_separation", "min_vertical_offset"},
-    "drone.yaml": {"limits", "mass", "crazyflow_drone_model"},
+    "drone.yaml": {"limits", "mass", "crazyflow_drone_model", "onboard_controller"},
     "hit_model.yaml": {
         "cone_half_angle",
         "max_range",
@@ -35,6 +36,26 @@ REQUIRED_KEYS = {
     "game.yaml": {"hp", "max_episode_time", "reward"},
 }
 
+ONBOARD_CONTROLLER_KEYS = {
+    "position_rate",
+    "attitude_rate",
+    "vel_xy",
+    "vel_z",
+    "roll_pitch_limit",
+    "thrust_base_pwm",
+    "thrust_min_pwm",
+    "thrust_max_pwm",
+    "yaw_max_delta",
+}
+PID_KEYS = {"kp", "ki", "kd", "i_limit", "output_limit"}
+
+
+def contract_version() -> str:
+    text = (ROOT / "docs" / "contracts.md").read_text()
+    m = re.search(r"^Version:\s*(\S+)", text, re.MULTILINE)
+    assert m, "docs/contracts.md has no 'Version:' line"
+    return m.group(1)
+
 
 def test_jax_runs():
     assert float(jnp.sum(jnp.arange(4.0))) == 6.0
@@ -43,9 +64,18 @@ def test_jax_runs():
 @pytest.mark.parametrize("name", sorted(REQUIRED_KEYS))
 def test_config_matches_contract(name):
     cfg = yaml.safe_load((ROOT / "config" / name).read_text())
-    assert cfg["contract_version"] == "0.1"
+    assert cfg["contract_version"] == contract_version()
     missing = REQUIRED_KEYS[name] - set(cfg)
     assert not missing, f"{name} missing keys: {missing}"
+
+
+def test_onboard_controller_keys() -> None:
+    oc = yaml.safe_load((ROOT / "config" / "drone.yaml").read_text())["onboard_controller"]
+    missing = ONBOARD_CONTROLLER_KEYS - set(oc)
+    assert not missing, f"onboard_controller missing keys: {missing}"
+    for axis in ("vel_xy", "vel_z"):
+        missing = PID_KEYS - set(oc[axis])
+        assert not missing, f"onboard_controller.{axis} missing keys: {missing}"
 
 
 def test_run_name_format():

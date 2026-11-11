@@ -1,5 +1,5 @@
 # Owner: WS4 (values), WS1 (code). Schema: docs/contracts.md section 10. PLACEHOLDER until bench data.
-contract_version: "0.1"
+contract_version: "0.2"
 cone_half_angle: 0.17   # rad
 max_range: 3.0          # m
 dwell_time: 0.2         # s
