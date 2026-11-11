@@ -1,13 +1,13 @@
 # Contracts
 
-Version: 0.1
-Status: agreed 2026-11-08 by Daksh; Neelesh to review
+Version: 0.2
+Status: agreed 2026-11-11 by Daksh
 Rule: never change silently. Propose a CONTRACT CHANGE PROPOSAL (what, why, affected workstreams), agree as a team, bump the version, log it in docs/decisions.md.
 
 ## 1. Frames and units
 - World frame: right-handed, z up, origin at the arena center on the floor, x and y aligned with the arena edges.
 - Body-yaw frame: origin at the drone, z up, x along the drone heading projected onto the horizontal plane. Rotates with yaw only.
-- Units: SI (m, s, rad). Angles wrapped to (-pi, pi].
+- Units: SI (m, s, rad). Angles wrapped to (-pi, pi]. Exception: onboard controller thrust values are in firmware PWM units (section 10).
 - Yaw: about +z, counterclockwise positive, 0 along world +x.
 
 ## 2. Rates
@@ -24,6 +24,8 @@ Rule: never change silently. Propose a CONTRACT CHANGE PROPOSAL (what, why, affe
 | 3   | yaw_rate | world z  | limits.yaw_rate        |
 
 - The action is a velocity setpoint to the Crazyflie onboard controller. The sim reproduces the setpoint-to-motion response identified by WS5, not ideal velocity tracking.
+- Onboard controller: the Crazyflie firmware PID controller (stabilizer.controller = 1). The firmware Mellinger controller ignores horizontal velocity setpoints and must not be used. Gains and limits are in drone.yaml onboard_controller; the sim runs a port of this controller.
+- Hardware transport: no firmware setpoint packet takes body-yaw vx, vy together with vz. The flight node rotates (vx, vy) into the world frame using the current yaw and sends a velocityWorld setpoint (yaw rate in deg/s on the wire).
 - Every action passes through the safety filter (section 8) before reaching the controller, in sim and on hardware. The policy never commands the drone directly.
 
 ## 4. Observation (per drone, 28 floats, this exact order)
@@ -86,9 +88,13 @@ On hardware, geometry fields are filled from mocap poses at time t by WS3 tools.
 
 ## 10. Config files and required keys
 - arena.yaml (WS1): contract_version, bounds {x, y, z}, geofence_margin, min_separation, min_vertical_offset
-- drone.yaml (WS5): contract_version, limits {v_xy, v_z, yaw_rate}, mass, crazyflow_drone_model
+- drone.yaml (WS5): contract_version, limits {v_xy, v_z, yaw_rate}, mass, crazyflow_drone_model, onboard_controller {position_rate, attitude_rate, vel_xy {kp, ki, kd, i_limit, output_limit}, vel_z {kp, ki, kd, i_limit, output_limit}, roll_pitch_limit, thrust_base_pwm, thrust_min_pwm, thrust_max_pwm, yaw_max_delta}. onboard_controller mirrors the flashed firmware's PID controller defaults: vel_xy in rad and m, vel_z and thrust_* in PWM (vel_z gains include the firmware thrustScale of 1000).
 - hit_model.yaml (WS4 values, WS1 code): contract_version, cone_half_angle, max_range, dwell_time, hit_cooldown, receivers (axis unit vectors in body frame), p_detect {distance, off_axis, incidence, table}. Table interpolated trilinearly; 0 outside the table.
 - randomization.yaml (WS1, latency from WS5): contract_version, ranges for mass, thrust, latency, observation noise, battery sag.
 - game.yaml (WS1): contract_version, hp, max_episode_time, reward {hit_dealt, hit_taken, crash, time_penalty}
 
 Schema changes follow the contract change process.
+
+## Changelog
+- 0.2 (2026-11-11): drone.yaml gains onboard_controller; section 3 names the firmware PID controller and the velocityWorld transport; PWM units exception in section 1.
+- 0.1 (2026-11-08): initial.

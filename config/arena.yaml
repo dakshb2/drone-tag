@@ -1,5 +1,5 @@
 # Owner: WS1. Schema: docs/contracts.md section 10. PLACEHOLDER values until the arena is measured.
-contract_version: "0.1"
+contract_version: "0.2"
 bounds:                    # m, world frame
   x: [-2.0, 2.0]
   y: [-2.0, 2.0]

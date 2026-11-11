@@ -1,5 +1,5 @@
 # Owner: WS1 (latency from WS5). Schema: docs/contracts.md section 10. PLACEHOLDER ranges.
-contract_version: "0.1"
+contract_version: "0.2"
 mass_scale: [0.95, 1.05]
 thrust_scale: [0.95, 1.05]
 latency_steps: [0, 3]       # policy steps at 50 Hz

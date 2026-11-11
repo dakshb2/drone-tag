@@ -1,5 +1,5 @@
 # Owner: WS1. Schema: docs/contracts.md section 10.
-contract_version: "0.1"
+contract_version: "0.2"
 hp: 3
 max_episode_time: 30.0   # s
 reward:
