@@ -1,9 +1,21 @@
-# Owner: WS1. Schema: docs/contracts.md section 10. PLACEHOLDER values until the arena is measured.
+# Arena geometry. Owner: WS1. Contract section 10.
+# PLACEHOLDER VALUES: replace with the real arena once known (PLAN section 10).
 contract_version: "0.2"
-bounds:                    # m, world frame
+
+# Geofence, world frame, m. [lo, hi] per axis, limits on the drone CENTER.
+# Leaving this box is a geofence violation (episode terminates; hardware aborts).
+# Frame radius and clearance to the net are baked into these numbers.
+# x and y must be symmetric about 0 (origin = arena center). z lo > 0.
+bounds:
   x: [-2.0, 2.0]
   y: [-2.0, 2.0]
-  z: [0.0, 2.0]
-geofence_margin: 0.3       # m
-min_separation: 0.5        # m, horizontal
-min_vertical_offset: 0.4   # m, no stacking inside min_separation
+  z: [0.3, 2.0]
+
+# Safety filter keeps drones this far inside bounds (task 5), m.
+geofence_margin: 0.3
+
+# Minimum horizontal distance between drone centers, m.
+min_separation: 0.5
+
+# Minimum vertical offset when closer than min_separation horizontally (no stacking, downwash, task 5), m.
+min_vertical_offset: 0.4
